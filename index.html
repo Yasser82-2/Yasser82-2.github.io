@@ -41,6 +41,7 @@ button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
 .gut { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .wrap { max-width: 74rem; margin-inline: auto; }
+.hero > .wrap { max-width: calc(74rem - 32px); }
 .mono { font-family: var(--mono); font-weight: 300; font-size: 0.75rem; letter-spacing: 0; line-height: 1.6; }
 .meta { color: var(--muted); }
 .cta { display: inline-block; padding: 0.7rem 1.2rem; background: var(--orange); color: #fff; border: 0; border-radius: 8px; font: 700 1.25rem/1.1 var(--sans); letter-spacing: -0.02em; text-decoration: none; cursor: pointer; transition: transform 0.15s ease, background-color 0.15s ease; }
@@ -54,12 +55,12 @@ button { font: inherit; color: inherit; }
 /* Ouverture */
 .hero { position: relative; overflow: hidden; min-height: clamp(42rem, 100svh, 60rem); display: grid; grid-template-rows: auto 1fr auto auto; padding-block: 1.75rem 1.25rem; gap: 1.25rem; }
 .ascii { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.top { position: relative; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 0.75rem 1.5rem; }
-.word { font: 700 clamp(1.5rem, 2.8vw, 2.25rem)/1 var(--sans); letter-spacing: -0.04em; text-decoration: none; }
+.top { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; }
+.word { display: inline-flex; align-items: center; gap: 0.55rem; font: 700 clamp(1.5rem, 2.8vw, 2.25rem)/1 var(--sans); letter-spacing: -0.04em; text-decoration: none; }
 .top nav { display: flex; flex-wrap: wrap; gap: 0.2rem 1.1rem; padding: 0.3rem 0.6rem; margin-left: auto; background: var(--bg); border-radius: 6px; }
 .top nav a { text-decoration: none; color: var(--muted); }
 .top nav a:hover { color: var(--fg); }
-.mark { width: clamp(3rem, 6vw, 5.5rem); height: auto; display: block; color: var(--fg); }
+.mark { flex: none; width: 1.35em; height: 1.35em; display: block; }
 .title { position: relative; align-self: end; display: grid; gap: 0.9rem; }
 h1 { font-size: clamp(3.6rem, 12.2vw, 10rem); line-height: 0.92; letter-spacing: -0.05em; }
 .foot-row { position: relative; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; }
@@ -186,7 +187,7 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
   .parts, .demo, .item, .about { grid-template-columns: minmax(0, 1fr); }
   .rows > div { grid-template-columns: minmax(0, 1fr); }
   .secret { display: grid; gap: 0.1rem; }
-  .top nav { order: 3; margin-left: 0; width: 100%; padding-inline: 0; }
+  .top nav { order: 3; margin-left: 0; width: 100%; padding-inline: 0; justify-content: space-between; gap: 0.2rem 0.5rem; font-size: 0.6875rem; }
 }
 </style>
 </head>
@@ -196,7 +197,11 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
   <canvas class="ascii" id="ascii" aria-hidden="true"></canvas>
 
   <div class="top wrap" style="width:100%">
-    <a class="word" href="#haut">portfolio</a>
+    <a class="word" href="#haut"><svg class="mark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="16" y="16" width="32" height="32" rx="5"/>
+      <rect x="26" y="26" width="12" height="12" rx="2"/>
+      <path d="M24 16V6M32 16V6M40 16V6M24 58V48M32 58V48M40 58V48M16 24H6M16 32H6M16 40H6M58 24H48M58 32H48M58 40H48"/>
+    </svg>portfolio</a>
     <nav class="mono" aria-label="Sections">
       <a href="#stages">Stages</a>
       <a href="#decodeur">Décodeur</a>
@@ -205,11 +210,6 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
       <a href="#contact">Contact</a>
       <a href="ELBOSRATY_Yasser_CV.pdf" target="_blank" rel="noopener">CV</a>
     </nav>
-    <svg class="mark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="16" y="16" width="32" height="32" rx="5"/>
-      <rect x="26" y="26" width="12" height="12" rx="2"/>
-      <path d="M24 16V6M32 16V6M40 16V6M24 58V48M32 58V48M40 58V48M16 24H6M16 32H6M16 40H6M58 24H48M58 32H48M58 40H48"/>
-    </svg>
   </div>
 
   <div></div>
@@ -243,7 +243,7 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
       <div class="head">
         <h3>Ingénieur stagiaire FPGA &amp; Systèmes Embarqués, iQrypto</h3>
         <p class="mono meta">Avril – septembre 2026 · Mons, Belgique · Stage de fin d'études</p>
-        <p>Petite entreprise spécialisée dans les générateurs quantiques de nombres aléatoires (QRNG) et la sécurité. Mon sujet : une infrastructure FPGA pour la cryptographie post-quantique.</p>
+        <p>Startup spécialisée dans les générateurs quantiques de nombres aléatoires (QRNG) et la sécurité. Mon sujet : une infrastructure FPGA pour la cryptographie post-quantique.</p>
       </div>
       <p class="secret"><strong>Confidentiel</strong><span>Le code et les documents de ce stage sont confidentiels : ils ne sont pas publiés sur GitHub.</span></p>
       <div class="parts">
@@ -433,21 +433,43 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
         <div class="item-l">
           <h3>Acquisition de données capteurs sur Raspberry Pi</h3>
           <p class="mono meta">Sept. – oct. 2025 · <a href="https://github.com/Yasser82-2/GUI-Applications-for-Simulated-Sensor-Data-Acquisition-Qt-Web-">Code sur GitHub</a></p>
-          <ul class="tags"><li>Python</li><li>Tornado</li><li>WebSockets</li><li>PySide6</li></ul>
+          <ul class="tags"><li>Python</li><li>Tornado</li><li>WebSockets</li><li>Chart.js</li><li>DHT11</li><li>GPIO</li><li>PySide6</li></ul>
         </div>
         <div class="item-r">
           <p>Interfaces web et Qt pour suivre température et humidité en temps réel, avec un capteur simulé et un capteur DHT : alarmes de seuil, statistiques et sauvegarde.</p>
+          <details>
+            <summary>Voir le détail</summary>
+            <ul>
+              <li>Serveur Python Tornado piloté par des commandes JSON en WebSocket : lecture unique, série de 10 mesures à 1 seconde d'intervalle, statistiques et réglage des seuils.</li>
+              <li>Deux sources de données : un capteur simulé ou un DHT11 branché sur le GPIO, avec repli automatique sur la simulation si le capteur est indisponible.</li>
+              <li>Tableau de bord web : courbes en temps réel avec Chart.js, conversion °F / °C, minimum, maximum et moyenne des 10 dernières mesures.</li>
+              <li>Alarmes de seuil réglables, diffusées à tous les clients connectés.</li>
+              <li>Interface de bureau en Qt (PySide6) : valeurs horodatées, alarmes et sauvegarde dans un fichier texte.</li>
+            </ul>
+          </details>
         </div>
       </article>
 
       <article class="item reveal" data-cat="logiciel">
         <div class="item-l">
-          <h3>Détection d'objets dans des vidéos 360°</h3>
-          <p class="mono meta">Sept. 2025 – févr. 2026 · Projet de fin d'études</p>
-          <ul class="tags"><li>YOLOv11</li><li>SSD</li><li>Faster R-CNN</li><li>VCM</li></ul>
+          <h3>Owlsight : détection d'objets dans des vidéos 360°</h3>
+          <p class="mono meta">Sept. 2025 – févr. 2026 · Projet de fin d'études · En équipe de 4</p>
+          <ul class="tags"><li>YOLOv11</li><li>SSD</li><li>Faster R-CNN</li><li>VCM</li><li>H.264 / H.265</li><li>FFmpeg</li><li>CVAT</li><li>Python</li></ul>
         </div>
         <div class="item-r">
-          <p>Comparaison de modèles de détection en projection équirectangulaire, évaluation des codecs vidéo pour machines (VCM) et métriques adaptées.</p>
+          <p class="proof">À faible débit, le H.265 préserve nettement mieux la détection que le H.264</p>
+          <p>Chaîne complète de la captation à la restitution sur casque VR, avec une étude de l'effet des projections et de la compression sur la précision de la détection.</p>
+          <details>
+            <summary>Voir le détail</summary>
+            <ul>
+              <li>Captation avec une caméra Insta360 Pro (8K, 6 objectifs) et création de notre propre base de vidéos : campus, route, intérieur et parking.</li>
+              <li>Variantes générées avec Python et FFmpeg : H.264 et H.265, CRF de 0 à 51, projections équirectangulaire, cubemap et autres. Annotation manuelle sous CVAT.</li>
+              <li>Évaluation avec la mAP pour la détection, le PSNR et le SSIM pour la qualité vidéo.</li>
+              <li>Résultat sur les projections : en équirectangulaire, la détection s'effondre aux pôles. Le cubemap corrige en partie le problème, mais peut couper un objet en deux à ses arêtes.</li>
+              <li>Cible embarquée NVIDIA Jetson Xavier NX abandonnée : le système occupe 14 Go des 16 Go de mémoire interne, et le démarrage sur support externe restait instable. Le calcul a été déplacé sur un PC portable avec GPU NVIDIA.</li>
+              <li>Démonstration sur casque Meta Quest 2 : les cadres de détection restent accrochés aux objets quand on tourne la tête.</li>
+            </ul>
+          </details>
         </div>
       </article>
 
@@ -455,10 +477,19 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
         <div class="item-l">
           <h3>Pilotage d'un robot simulé en client-serveur</h3>
           <p class="mono meta">Févr. – avril 2024 · En équipe · <a href="https://github.com/Yasser82-2/Java-Robot-ClientServer-App">Code sur GitHub</a></p>
-          <ul class="tags"><li>Java</li><li>JavaFX</li><li>Sockets TCP/IP</li></ul>
+          <ul class="tags"><li>Java</li><li>Swing</li><li>Sockets TCP/IP</li><li>Threads</li></ul>
         </div>
         <div class="item-r">
-          <p>Le client trace une trajectoire et l'envoie par TCP, le serveur simule le déplacement et renvoie le chemin parcouru.</p>
+          <p>Le client trace une trajectoire à la souris et l'envoie au serveur par TCP. Côté serveur, le robot est déplacé avec des flèches, et le chemin parcouru revient au client au fur et à mesure.</p>
+          <details>
+            <summary>Voir le détail</summary>
+            <ul>
+              <li>Échange d'objets Java sérialisés sur socket TCP : trajectoire, trace du robot et image du robot.</li>
+              <li>Thread dédié côté client pour écouter les positions sans bloquer l'interface.</li>
+              <li>Deux interfaces graphiques en Swing, avec affichage de la trajectoire demandée et du chemin réellement suivi.</li>
+              <li>Petits clients et serveurs TCP préparatoires pour l'échange de messages et l'historique.</li>
+            </ul>
+          </details>
         </div>
       </article>
 
@@ -466,10 +497,18 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
         <div class="item-l">
           <h3>Processeur 8 bits dans Logisim</h3>
           <p class="mono meta">Avril – juin 2023 · <a href="https://github.com/Yasser82-2/8bit-CPU-Logisim-Project">Code sur GitHub</a></p>
-          <ul class="tags"><li>Logisim</li><li>Logique numérique</li></ul>
+          <ul class="tags"><li>Logisim</li><li>Logique numérique</li><li>Architecture des processeurs</li></ul>
         </div>
         <div class="item-r">
           <p>Conception et simulation d'un processeur : unité arithmétique et logique, unité de contrôle, compteur de programme et bus de données 8 bits.</p>
+          <details>
+            <summary>Voir le détail</summary>
+            <ul>
+              <li>Construction de bas en haut : bascules et cellule mémoire, puis registres et registre à décalage, puis additionneur et unité arithmétique et logique.</li>
+              <li>Assemblage du processeur : unité de contrôle, compteur de programme, registre d'adresse mémoire, RAM et ROM.</li>
+              <li>Objectif : comprendre l'architecture interne d'un processeur et le déroulement d'une instruction.</li>
+            </ul>
+          </details>
         </div>
       </article>
 
@@ -507,7 +546,7 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
         <div><dt>FPGA &amp; numérique</dt><dd>VHDL, HLS, Vivado, Vitis, Quartus, AXI4, AXI-Stream, machines à états, contraintes de timing, ILA</dd></div>
         <div><dt>Logiciel</dt><dd>C, C++, Python, Java, MATLAB, Flask, SocketIO, Docker, Linux, Git</dd></div>
         <div><dt>Sécurité</dt><dd>Cryptographie post-quantique (ML-DSA), analyse de firmware (binwalk), sécurité web (DVWA)</dd></div>
-        <div><dt>IA &amp; vision</dt><dd>Détection d'objets (YOLO, SSD, Faster R-CNN)</dd></div>
+        <div><dt>IA &amp; vision</dt><dd>Détection d'objets (YOLO, SSD, Faster R-CNN), FFmpeg, CVAT, métriques mAP, PSNR et SSIM</dd></div>
         <div><dt>Instrumentation</dt><dd>Oscilloscope, générateur de signaux, analyseur logique, caméra infrarouge</dd></div>
       </dl>
     </div>
