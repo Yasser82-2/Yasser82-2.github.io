@@ -1,0 +1,1155 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yasser Elbosraty</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Portfolio interactif de Yasser Elbosraty, ingénieur systèmes embarqués et FPGA diplômé de l'INSA Hauts-de-France.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Martian+Mono:wght@200;300;400&display=swap">
+<style>
+/* Contrat : un recruteur venu de LinkedIn juge le profil, l'essaie, puis prend contact. Action principale : Me contacter.
+   Layout : grand titre sur fond de caractères ASCII, une seule couleur vive réservée aux actions et au signal.
+   Style à thème unique : charbon, blanc cassé et orange, identique pour tous les visiteurs. */
+:root {
+  color-scheme: dark;
+  --bg: #161615;
+  --panel: #1f1f1d;
+  --fg: #fbf7ee;
+  --muted: #a8a59e;
+  --line: #34342f;
+  --ascii: #41413c;
+  --orange: #ff5a0a;
+  --orange-text: #ff8a4c;
+  --ok: #4ade80;
+  --bad: #ff5c5c;
+  --sans: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Martian Mono", Consolas, monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 1.0625rem/1.55 var(--sans); }
+h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
+h1, h2, h3 { font-weight: 700; letter-spacing: -0.03em; line-height: 1.02; text-wrap: balance; }
+ul { padding-left: 1.1rem; display: grid; gap: 0.45rem; }
+a { color: var(--fg); text-underline-offset: 0.2em; }
+a:hover { color: var(--orange-text); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.gut { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 74rem; margin-inline: auto; }
+.mono { font-family: var(--mono); font-weight: 300; font-size: 0.75rem; letter-spacing: 0; line-height: 1.6; }
+.meta { color: var(--muted); }
+.cta { display: inline-block; padding: 0.7rem 1.2rem; background: var(--orange); color: #fff; border: 0; border-radius: 8px; font: 700 1.25rem/1.1 var(--sans); letter-spacing: -0.02em; text-decoration: none; cursor: pointer; transition: transform 0.15s ease, background-color 0.15s ease; }
+.cta:hover { background: var(--fg); color: var(--bg); transform: translateY(-2px); }
+.ghost { display: inline-block; padding: 0.45rem 0.8rem; background: transparent; color: var(--fg); border: 1px solid var(--line); border-radius: 8px; font: 500 0.9375rem/1.2 var(--sans); text-decoration: none; cursor: pointer; transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease; }
+.ghost:hover { border-color: var(--fg); color: var(--fg); }
+.ghost.cv { padding: 0.7rem 1.1rem; background: var(--bg); border-color: var(--fg); font: 700 1.25rem/1.1 var(--sans); letter-spacing: -0.02em; }
+.ghost.cv:hover { background: var(--fg); color: var(--bg); }
+.ghost[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+
+/* Ouverture */
+.hero { position: relative; overflow: hidden; min-height: clamp(42rem, 100svh, 60rem); display: grid; grid-template-rows: auto 1fr auto auto; padding-block: 1.75rem 1.25rem; gap: 1.25rem; }
+.ascii { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.top { position: relative; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 0.75rem 1.5rem; }
+.word { font: 700 clamp(1.5rem, 2.8vw, 2.25rem)/1 var(--sans); letter-spacing: -0.04em; text-decoration: none; }
+.top nav { display: flex; flex-wrap: wrap; gap: 0.2rem 1.1rem; padding: 0.3rem 0.6rem; margin-left: auto; background: var(--bg); border-radius: 6px; }
+.top nav a { text-decoration: none; color: var(--muted); }
+.top nav a:hover { color: var(--fg); }
+.mark { width: clamp(3rem, 6vw, 5.5rem); height: auto; display: block; color: var(--fg); }
+.title { position: relative; align-self: end; display: grid; gap: 0.9rem; }
+h1 { font-size: clamp(3.6rem, 12.2vw, 10rem); line-height: 0.92; letter-spacing: -0.05em; }
+.foot-row { position: relative; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; }
+.tagline { font: 200 clamp(1.05rem, 2.5vw, 1.875rem)/1.25 var(--mono); letter-spacing: -0.03em; }
+.state { display: flex; align-items: center; gap: 0.55rem; margin-top: 0.6rem; color: var(--fg); }
+.led { flex: none; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--ok); }
+.scopebox { position: relative; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem 0.6rem; }
+.scope { display: block; width: 100%; height: 92px; }
+.scopebox .meta { font-size: 0.6875rem; }
+.seg { transition: color 0.2s linear; }
+.seg.now { color: var(--orange-text); font-weight: 400; }
+
+/* Sections */
+.sec { padding-block: 4.5rem 0; display: grid; gap: 1.75rem; min-width: 0; }
+.sec > h2, .sec-head h2 { font-size: clamp(2.75rem, 7vw, 5rem); letter-spacing: -0.045em; }
+.sec-lead { max-width: 44rem; font-size: 1.1875rem; }
+.tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.15rem 0.9rem; font: 300 0.6875rem/1.7 var(--mono); color: var(--muted); }
+.proof { font: 700 clamp(1.3rem, 2.4vw, 1.625rem)/1.12 var(--sans); letter-spacing: -0.025em; color: var(--orange-text); }
+
+/* Stage principal et boucle */
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: clamp(1.1rem, 3vw, 2rem); display: grid; gap: 1.5rem; min-width: 0; }
+.panel h3 { font-size: clamp(1.75rem, 3.4vw, 2.5rem); }
+.head { display: grid; gap: 0.5rem; }
+.secret { display: flex; gap: 0.75rem; align-items: baseline; border: 1px dashed var(--orange); border-radius: 8px; padding: 0.55rem 0.8rem; font-size: 0.9375rem; }
+.secret strong { font: 400 0.6875rem/1.5 var(--mono); color: var(--orange-text); text-transform: uppercase; }
+.parts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 2.5rem; }
+.part { display: grid; gap: 0.65rem; align-content: start; min-width: 0; }
+.part h4 { margin: 0; font: 700 1.25rem/1.15 var(--sans); letter-spacing: -0.02em; }
+.loopbox { border-top: 1px solid var(--line); padding-top: 1.25rem; display: grid; gap: 0.7rem; }
+.loop { display: block; width: 100%; height: auto; }
+.loop .wire { fill: none; stroke: var(--muted); stroke-opacity: 0.65; stroke-width: 2; }
+.loop .wire.back { stroke-dasharray: 4 5; stroke: var(--muted); }
+.loop .nd { cursor: pointer; outline: none; }
+.loop .nd rect { fill: var(--bg); stroke: var(--muted); stroke-width: 1.2; transition: fill 0.12s linear, stroke 0.12s linear; }
+.loop .nd text { fill: var(--fg); font: 500 14px var(--sans); text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+.loop .nd.on rect, .loop .nd:hover rect, .loop .nd:focus-visible rect { stroke: var(--orange); }
+.loop .nd.on rect { fill: #3a2014; }
+.loop .dot { fill: var(--orange); }
+.loop .eq { fill: var(--orange-text); font: 700 22px var(--sans); text-anchor: middle; dominant-baseline: middle; }
+.loop .note { fill: var(--muted); font: 300 11px var(--mono); }
+.info { min-height: 3.1em; color: var(--fg); font-size: 0.9375rem; }
+
+/* Décodeur Morse interactif */
+.demo { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 4fr); gap: 1.5rem 2.5rem; }
+.controls, .readout { display: grid; gap: 0.9rem; align-content: start; min-width: 0; }
+.modes { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.key { width: 100%; min-height: 7.5rem; border-radius: 10px; border: 0; background: var(--orange); color: #fff; font: 700 clamp(1.5rem, 3vw, 2rem)/1.1 var(--sans); letter-spacing: -0.03em; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; transition: transform 0.06s linear, background-color 0.06s linear; }
+.key small { display: block; font: 300 0.6875rem/1.6 var(--mono); letter-spacing: 0; margin-top: 0.3rem; }
+.key.down { background: var(--fg); color: var(--bg); transform: scale(0.985); }
+.hold { height: 6px; background: var(--line); border-radius: 3px; position: relative; overflow: hidden; }
+.hold i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--orange); }
+.hold::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--fg); }
+.hold-legend { display: flex; justify-content: space-between; font: 300 0.6875rem/1.4 var(--mono); color: var(--muted); }
+.screen { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.2rem 1.1rem; align-items: center; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 0.8rem 1rem; }
+.hex { grid-row: span 2; font: 400 clamp(3rem, 6vw, 4rem)/1 var(--mono); color: var(--orange-text); min-width: 1.1em; text-align: center; }
+.seq { font: 400 1.25rem/1.3 var(--mono); min-height: 1.3em; overflow-wrap: anywhere; }
+.msg { font-size: 0.9375rem; min-height: 1.55em; }
+.leds { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.1rem; font: 300 0.6875rem/1.4 var(--mono); color: var(--muted); }
+.leds span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.leds i { width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--line); }
+.leds i.green.on { background: var(--ok); }
+.leds i.red.on { background: var(--bad); }
+.fsm { display: block; width: 100%; height: auto; }
+.fsm .st rect { fill: var(--bg); stroke: var(--muted); stroke-width: 1.2; transition: fill 0.1s linear; }
+.fsm .st text { fill: var(--fg); font: 300 12px var(--mono); text-anchor: middle; dominant-baseline: middle; }
+.fsm .st.on rect { fill: var(--orange); stroke: var(--orange); }
+.fsm .st.on text { fill: #fff; font-weight: 400; }
+.fsm path { fill: none; stroke: var(--muted); stroke-width: 1.3; marker-end: url(#tip); }
+.fsm .lbl { fill: var(--muted); font: 300 10px var(--mono); }
+.fsm.off { opacity: 0.4; }
+.liveclip { display: block; width: 100%; height: 70px; }
+.credit { font-size: 0.875rem; color: var(--muted); }
+
+/* Projets */
+.filters { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.list { display: grid; }
+.item { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 0.7rem 2.5rem; padding-block: 1.6rem; border-top: 1px solid var(--line); }
+.item-l, .item-r { display: grid; gap: 0.55rem; align-content: start; min-width: 0; }
+.item h3 { font-size: clamp(1.5rem, 2.8vw, 2rem); }
+details { border-top: 1px solid var(--line); padding-top: 0.55rem; }
+summary { cursor: pointer; font-weight: 500; font-size: 0.9375rem; }
+summary:hover { color: var(--orange-text); }
+details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
+.tag-now { color: var(--orange-text); }
+.empty { padding-block: 1.5rem; border-top: 1px solid var(--line); color: var(--muted); }
+
+/* Profil */
+.about { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 1.5rem 3rem; }
+.about-text { display: grid; gap: 0.8rem; align-content: start; }
+.rows { display: grid; }
+.rows > div { display: grid; grid-template-columns: 13rem minmax(0, 1fr); gap: 0.1rem 1.5rem; padding-block: 0.7rem; border-top: 1px solid var(--line); }
+.rows > div:first-child { border-top: 0; padding-top: 0; }
+.rows dt { font: 300 0.75rem/1.9 var(--mono); color: var(--muted); }
+.about .rows > div { grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.1rem 1rem; }
+.block { display: grid; gap: 0.9rem; }
+.block h3 { font-size: clamp(1.75rem, 3.4vw, 2.5rem); }
+
+/* Contact */
+.closing { margin-top: 5rem; border-top: 1px solid var(--line); }
+.closing .wrap { display: grid; gap: 1.25rem; padding-block: 3rem 2rem; }
+.closing h2 { font-size: clamp(3rem, 10vw, 8rem); line-height: 0.95; letter-spacing: -0.05em; }
+.mail { font: 200 clamp(1rem, 3.6vw, 2.25rem)/1.2 var(--mono); letter-spacing: -0.04em; overflow-wrap: anywhere; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+/* Animations */
+@media (prefers-reduced-motion: no-preference) {
+  .led { animation: blink 2.4s ease-in-out infinite; }
+  .reveal.in { animation: rise 0.5s ease-out both; }
+}
+@keyframes blink { 50% { opacity: 0.35; } }
+@keyframes rise { from { opacity: 0.55; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .cta, .cta:hover { transition: none; transform: none; } }
+
+@media (max-width: 52rem) {
+  .hero { min-height: max(54rem, 100svh); }
+  .parts, .demo, .item, .about { grid-template-columns: minmax(0, 1fr); }
+  .rows > div { grid-template-columns: minmax(0, 1fr); }
+  .secret { display: grid; gap: 0.1rem; }
+  .top nav { order: 3; margin-left: 0; width: 100%; padding-inline: 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero gut" id="haut">
+  <canvas class="ascii" id="ascii" aria-hidden="true"></canvas>
+
+  <div class="top wrap" style="width:100%">
+    <a class="word" href="#haut">portfolio</a>
+    <nav class="mono" aria-label="Sections">
+      <a href="#stages">Stages</a>
+      <a href="#decodeur">Décodeur</a>
+      <a href="#projets">Projets</a>
+      <a href="#profil">Profil</a>
+      <a href="#contact">Contact</a>
+      <a href="ELBOSRATY_Yasser_CV.pdf" target="_blank" rel="noopener">CV</a>
+    </nav>
+    <svg class="mark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="16" y="16" width="32" height="32" rx="5"/>
+      <rect x="26" y="26" width="12" height="12" rx="2"/>
+      <path d="M24 16V6M32 16V6M40 16V6M24 58V48M32 58V48M40 58V48M16 24H6M16 32H6M16 40H6M58 24H48M58 32H48M58 40H48"/>
+    </svg>
+  </div>
+
+  <div></div>
+
+  <div class="title wrap" style="width:100%">
+    <h1>Yasser<br>Elbosraty</h1>
+    <div class="foot-row">
+      <div>
+        <p class="tagline">Ingénieur Systèmes Embarqués &amp; FPGA</p>
+        <p class="mono state"><span class="led" aria-hidden="true"></span>Diplômé INSA Hauts-de-France · Disponible immédiatement · CDI ou CDD · Toute la France</p>
+      </div>
+      <div class="actions">
+        <a class="ghost cv" href="ELBOSRATY_Yasser_CV.pdf" target="_blank" rel="noopener">Voir mon CV</a>
+        <a class="cta" href="#contact">Me contacter</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="scopebox wrap" style="width:100%">
+    <canvas class="scope" id="scope" role="img" aria-label="Chronogramme dont le signal écrit en code Morse : Yasser, systèmes embarqués et FPGA, cherche CDI ou CDD"></canvas>
+    <p class="mono meta">Le signal morse écrit : <span class="seg">YASSER</span> · <span class="seg">SYSTÈMES EMBARQUÉS, FPGA</span> · <span class="seg">CHERCHE CDI, CDD</span>. <a href="#decodeur">Écrire le vôtre avec mon décodeur</a></p>
+  </div>
+</header>
+
+<main class="wrap gut">
+
+  <section class="sec" id="stages">
+    <h2>Stages</h2>
+
+    <article class="panel reveal">
+      <div class="head">
+        <h3>Ingénieur stagiaire FPGA &amp; Systèmes Embarqués, iQrypto</h3>
+        <p class="mono meta">Avril – septembre 2026 · Mons, Belgique · Stage de fin d'études</p>
+        <p>Petite entreprise spécialisée dans les générateurs quantiques de nombres aléatoires (QRNG) et la sécurité. Mon sujet : une infrastructure FPGA pour la cryptographie post-quantique.</p>
+      </div>
+      <p class="secret"><strong>Confidentiel</strong><span>Le code et les documents de ce stage sont confidentiels : ils ne sont pas publiés sur GitHub.</span></p>
+      <div class="parts">
+        <div class="part">
+          <h4>Chemin de données optique à 10 Gbit/s</h4>
+          <p class="proof">Données émises et reçues identiques octet par octet</p>
+          <p>Sur Kintex UltraScale (carte KCU105), piloté par un processeur RISC-V soft-core, sur trois domaines d'horloge. Validé de bout en bout en rebouclage par fibre.</p>
+        </div>
+        <div class="part">
+          <h4>Implémentation matérielle de ML-DSA (FIPS 204)</h4>
+          <p class="proof">Signature sur carte identique au vecteur de test officiel du NIST</p>
+          <p>La norme NIST de signature post-quantique, développée de zéro en HLS : génération de clé, signature, SHAKE, NTT. Modèle de référence d'abord écrit en C, chaque module étant comparé à la référence pq-crystals. Timing respecté à 100 MHz, avec environ 50 % des LUT d'un XCKU040.</p>
+        </div>
+      </div>
+      <div class="loopbox">
+        <p class="mono meta">La boucle de validation, en schéma simplifié. Cliquez sur un bloc pour voir son rôle.</p>
+        <svg class="loop" id="loop" role="group" aria-label="Boucle fermée du chemin de données : la mémoire d'émission passe par le DataMover, la FIFO, le cœur 10G Ethernet et le module SFP+, traverse la fibre, puis revient vers la mémoire de réception, comparée à l'émission."></svg>
+        <p class="info" id="loopinfo" aria-live="polite">Les données partent de la mémoire, traversent la fibre et reviennent. Les deux zones mémoire sont ensuite identiques octet par octet.</p>
+      </div>
+      <div class="head">
+        <p>J'ai aussi mis en place la liaison carte–PC en Ethernet avec lwIP en bare-metal (ping sans perte), débogué sur cible avec l'ILA et des registres d'état, et rédigé les rapports techniques pour la reprise du projet.</p>
+        <ul class="tags"><li>Vivado</li><li>Vitis HLS</li><li>C/C++</li><li>VHDL</li><li>AXI4</li><li>AXI-Stream</li><li>lwIP</li><li>RISC-V</li><li>ILA</li></ul>
+      </div>
+    </article>
+
+    <article class="item reveal" style="border-top:0;padding-bottom:0">
+      <div class="item-l">
+        <h3>Stagiaire de recherche, IEMN</h3>
+        <p class="mono meta">Septembre 2024 – janvier 2025 · Valenciennes</p>
+      </div>
+      <div class="item-r">
+        <p>Étude de l'excitation thermique de capteurs à ondes acoustiques de surface (SAW) à l'Institut d'Électronique, de Microélectronique et de Nanotechnologie. Mesures par caméra infrarouge selon la tension appliquée, diagnostic d'une source d'instabilité matérielle qui a fiabilisé les mesures, et contribution aux recherches sur les ondes stationnaires et le déplacement de microparticules.</p>
+        <ul class="tags"><li>Capteurs SAW</li><li>Caméra infrarouge</li><li>Instrumentation</li></ul>
+      </div>
+    </article>
+  </section>
+
+  <section class="sec" id="decodeur">
+    <div class="head sec-head">
+      <h2>Essayez mon décodeur Morse</h2>
+      <p class="sec-lead">Mon projet FPGA, reproduit ici pour le tester sans carte. Appuyez sur le bouton : un appui court donne un point, un appui long donne un trait.</p>
+    </div>
+
+    <div class="panel demo reveal">
+      <div class="controls">
+        <div class="modes" role="group" aria-label="Mode du décodeur">
+          <button class="ghost" id="modeDec" type="button" aria-pressed="true">Mode décodeur</button>
+          <button class="ghost" id="modeGame" type="button" aria-pressed="false">Mode jeu</button>
+          <button class="ghost" id="reset" type="button">Effacer</button>
+        </div>
+        <button class="key" id="key" type="button">Maintenez pour émettre<small>Souris, doigt ou barre d'espace</small></button>
+        <div>
+          <div class="hold" aria-hidden="true"><i id="holdBar"></i></div>
+          <div class="hold-legend" aria-hidden="true"><span>point</span><span>400 ms</span><span>trait</span></div>
+        </div>
+        <canvas class="liveclip" id="live" role="img" aria-label="Chronogramme en direct de vos appuis"></canvas>
+      </div>
+      <div class="readout">
+        <div class="screen">
+          <div class="hex" id="hex" aria-hidden="true">–</div>
+          <div class="seq" id="seq" aria-label="Symboles en cours"></div>
+          <div class="msg" id="msg" aria-live="polite">Essayez un appui court suivi d'une pause : vous obtenez la lettre E.</div>
+        </div>
+        <div class="leds"><span><i class="green" id="ledG"></i>LED verte</span><span><i class="red" id="ledR"></i>LED rouge</span><span id="score"></span></div>
+        <svg class="fsm off" id="fsm" viewBox="0 0 560 214" role="img" aria-label="Machine à états du mode jeu, en boucle fermée : nouvelle lettre, attente de l'utilisateur, vérification, puis réussite ou échec.">
+          <defs><marker id="tip" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" style="fill:#a8a59e;stroke:none;marker-end:none"/></marker></defs>
+          <path d="M80 34H128"/>
+          <path d="M268 34H360"/>
+          <path d="M430 54V146"/>
+          <path d="M360 166H270"/>
+          <path d="M130 146V56"/>
+          <path d="M385 146L306 112"/>
+          <path d="M306 90L385 56"/>
+          <text class="lbl" x="316" y="182">juste</text>
+          <text class="lbl" x="300" y="132">faux</text>
+          <text class="lbl" x="136" y="104">1 s</text>
+          <text class="lbl" x="350" y="66">1 s</text>
+          <g class="st" data-s="IDLE"><rect x="4" y="14" width="76" height="40" rx="6"/><text x="42" y="34">IDLE</text></g>
+          <g class="st" data-s="NEW_CHALLENGE"><rect x="130" y="14" width="138" height="40" rx="6"/><text x="199" y="34">NEW_CHALLENGE</text></g>
+          <g class="st" data-s="WAIT_INPUT"><rect x="362" y="14" width="136" height="40" rx="6"/><text x="430" y="34">WAIT_INPUT</text></g>
+          <g class="st" data-s="CHECK"><rect x="362" y="146" width="136" height="40" rx="6"/><text x="430" y="166">CHECK</text></g>
+          <g class="st" data-s="WIN"><rect x="130" y="146" width="138" height="40" rx="6"/><text x="199" y="166">WIN</text></g>
+          <g class="st" data-s="FAIL"><rect x="232" y="82" width="74" height="40" rx="6"/><text x="269" y="102">FAIL</text></g>
+        </svg>
+        <p class="credit">Reconstitution en JavaScript de la logique de mon projet VHDL : mêmes seuils de 400 et 800 ms, même LFSR de 16 bits et mêmes états de jeu.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="projets">
+    <h2>Projets</h2>
+    <div class="filters" role="group" aria-label="Filtrer les projets">
+      <button class="ghost" type="button" data-f="tous" aria-pressed="true">Tous</button>
+      <button class="ghost" type="button" data-f="embarque" aria-pressed="false">Embarqué &amp; IoT</button>
+      <button class="ghost" type="button" data-f="fpga" aria-pressed="false">FPGA &amp; numérique</button>
+      <button class="ghost" type="button" data-f="securite" aria-pressed="false">Sécurité</button>
+      <button class="ghost" type="button" data-f="logiciel" aria-pressed="false">Logiciel &amp; IA</button>
+    </div>
+
+    <div class="list" id="list">
+      <article class="item reveal" data-cat="embarque logiciel">
+        <div class="item-l">
+          <h3>Système de sécurité temps réel pour ascenseur</h3>
+          <p class="mono meta">Octobre 2025 – début 2026 · Raspberry Pi 4 · Linux Xenomai 3</p>
+          <ul class="tags"><li>C</li><li>Xenomai</li><li>RTDM</li><li>GPIO</li><li>PWM</li><li>Python</li><li>Flask</li></ul>
+        </div>
+        <div class="item-r">
+          <p class="proof">Tâche temps réel à 20 ms, sans aucun passage par Linux relevé</p>
+          <p>Détection d'un blocage de porte, avec une réponse graduée et une supervision depuis un tableau de bord web. Si un obstacle reste à moins de 20 cm : alerte sonore après 5 secondes, servomoteur après 10 secondes.</p>
+          <details>
+            <summary>Voir le détail</summary>
+            <ul>
+              <li>Driver noyau RTDM en C : capteur à ultrasons HC-SR04, buzzer et servomoteur SG90 piloté en PWM logiciel à 50 Hz.</li>
+              <li>Validation avec les statistiques de l'ordonnanceur Xenomai : zéro changement de mode (MSW) pour la tâche.</li>
+              <li>Python ne pouvait pas lire le périphérique temps réel (erreur EINVAL). J'ai ajouté une interface /proc, lue par un agent Python qui envoie l'état à un serveur Flask par SocketIO.</li>
+              <li>Compilation croisée du noyau et des modules, et PC configuré en passerelle (IP forwarding, NAT).</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <article class="item reveal" data-cat="fpga">
+        <div class="item-l">
+          <h3>Décodeur et jeu d'apprentissage du code Morse sur FPGA</h3>
+          <p class="mono meta">Décembre 2025 – janvier 2026 · En binôme · DE1-SoC (Cyclone V)</p>
+          <ul class="tags"><li>VHDL</li><li>FSM</li><li>LFSR</li><li>Cyclone V</li></ul>
+        </div>
+        <div class="item-r">
+          <p class="proof">Fonctionnement validé sur la carte, en mode décodeur et en mode jeu</p>
+          <p>Système numérique en VHDL qui décode en temps réel les appuis sur un bouton. <a href="#decodeur">Essayer la reconstitution</a></p>
+          <details>
+            <summary>Voir le détail</summary>
+            <ul>
+              <li>Anti-rebond par registre à décalage de 4 bits, échantillonné toutes les millisecondes.</li>
+              <li>Seuils réglés par essais : trait à partir de 400 ms d'appui, fin de caractère après 800 ms de silence.</li>
+              <li>Conception synchrone sur l'horloge de 50 MHz, avec un signal d'activation à 1 ms.</li>
+              <li>Machine à états de Moore pour le jeu, et tirage des caractères par un LFSR de 16 bits.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <article class="item reveal" data-cat="securite embarque">
+        <div class="item-l">
+          <h3>Sécurité des systèmes embarqués et de l'IoT</h3>
+          <p class="mono meta">Novembre 2025 – début 2026 · ESE 5A · Travaux pratiques du module Embedded System Reliability</p>
+          <ul class="tags"><li>avrdude</li><li>UART</li><li>binwalk</li><li>John the Ripper</li><li>Bluetooth</li><li>Docker</li></ul>
+        </div>
+        <div class="item-r">
+          <p>Série d'exercices en environnement pédagogique, sur une carte à microcontrôleur AVR et une application web volontairement vulnérable.</p>
+          <details>
+            <summary>Voir le détail</summary>
+            <ul>
+              <li>Matériel : flashage de firmwares avec avrdude, recherche de broches dans la datasheet, communication UART.</li>
+              <li>Firmware : extraction d'un système de fichiers Linux embarqué avec binwalk, test d'un hash avec John the Ripper, recherche d'un mot de passe écrit en dur.</li>
+              <li>Sans fil : connexion Bluetooth et lecture de caractéristiques.</li>
+              <li>Web : injection SQL, CSRF et détection d'une faille XSS sur DVWA, dans Docker.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <article class="item reveal" data-cat="embarque logiciel">
+        <div class="item-l">
+          <h3>Acquisition de données capteurs sur Raspberry Pi</h3>
+          <p class="mono meta">Sept. – oct. 2025 · <a href="https://github.com/Yasser82-2/GUI-Applications-for-Simulated-Sensor-Data-Acquisition-Qt-Web-">Code sur GitHub</a></p>
+          <ul class="tags"><li>Python</li><li>Tornado</li><li>WebSockets</li><li>PySide6</li></ul>
+        </div>
+        <div class="item-r">
+          <p>Interfaces web et Qt pour suivre température et humidité en temps réel, avec un capteur simulé et un capteur DHT : alarmes de seuil, statistiques et sauvegarde.</p>
+        </div>
+      </article>
+
+      <article class="item reveal" data-cat="logiciel">
+        <div class="item-l">
+          <h3>Détection d'objets dans des vidéos 360°</h3>
+          <p class="mono meta">Sept. 2025 – févr. 2026 · Projet de fin d'études</p>
+          <ul class="tags"><li>YOLOv11</li><li>SSD</li><li>Faster R-CNN</li><li>VCM</li></ul>
+        </div>
+        <div class="item-r">
+          <p>Comparaison de modèles de détection en projection équirectangulaire, évaluation des codecs vidéo pour machines (VCM) et métriques adaptées.</p>
+        </div>
+      </article>
+
+      <article class="item reveal" data-cat="logiciel">
+        <div class="item-l">
+          <h3>Pilotage d'un robot simulé en client-serveur</h3>
+          <p class="mono meta">Févr. – avril 2024 · En équipe · <a href="https://github.com/Yasser82-2/Java-Robot-ClientServer-App">Code sur GitHub</a></p>
+          <ul class="tags"><li>Java</li><li>JavaFX</li><li>Sockets TCP/IP</li></ul>
+        </div>
+        <div class="item-r">
+          <p>Le client trace une trajectoire et l'envoie par TCP, le serveur simule le déplacement et renvoie le chemin parcouru.</p>
+        </div>
+      </article>
+
+      <article class="item reveal" data-cat="fpga">
+        <div class="item-l">
+          <h3>Processeur 8 bits dans Logisim</h3>
+          <p class="mono meta">Avril – juin 2023 · <a href="https://github.com/Yasser82-2/8bit-CPU-Logisim-Project">Code sur GitHub</a></p>
+          <ul class="tags"><li>Logisim</li><li>Logique numérique</li></ul>
+        </div>
+        <div class="item-r">
+          <p>Conception et simulation d'un processeur : unité arithmétique et logique, unité de contrôle, compteur de programme et bus de données 8 bits.</p>
+        </div>
+      </article>
+
+      <article class="item reveal" data-cat="embarque">
+        <div class="item-l">
+          <h3>ESP32</h3>
+          <p class="mono tag-now">En cours d'apprentissage</p>
+        </div>
+        <div class="item-r">
+          <p>J'approfondis ce microcontrôleur pour aller plus loin en IoT.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec" id="profil">
+    <h2>Profil</h2>
+    <div class="about">
+      <div class="about-text">
+        <p class="sec-lead">Ingénieur spécialisé en électronique des systèmes embarqués, j'ai acquis mon expérience en entreprise et en laboratoire de recherche, sur des projets techniques conduits de la conception à la validation.</p>
+        <p>Je recherche un poste d'ingénieur en systèmes embarqués, FPGA, électronique numérique ou IoT, quel que soit le secteur d'activité.</p>
+      </div>
+      <dl class="rows">
+        <div><dt>Basé à</dt><dd>Valenciennes (59)</dd></div>
+        <div><dt>Langues</dt><dd>Français (C2), anglais (B2, TOEIC 850)</dd></div>
+        <div><dt>Mobilité</dt><dd>Toute la France, permis B, véhiculé</dd></div>
+        <div><dt>Loisirs</dt><dd>Course à pied, musculation, tennis de table</dd></div>
+      </dl>
+    </div>
+
+    <div class="block" id="competences">
+      <h3>Compétences</h3>
+      <dl class="rows">
+        <div><dt>Embarqué &amp; IoT</dt><dd>C/C++ bare-metal, Linux temps réel (Xenomai, RTDM), drivers noyau, compilation croisée, RISC-V, Raspberry Pi, AVR, GPIO, PWM, I2C, SPI, UART, Ethernet</dd></div>
+        <div><dt>FPGA &amp; numérique</dt><dd>VHDL, HLS, Vivado, Vitis, Quartus, AXI4, AXI-Stream, machines à états, contraintes de timing, ILA</dd></div>
+        <div><dt>Logiciel</dt><dd>C, C++, Python, Java, MATLAB, Flask, SocketIO, Docker, Linux, Git</dd></div>
+        <div><dt>Sécurité</dt><dd>Cryptographie post-quantique (ML-DSA), analyse de firmware (binwalk), sécurité web (DVWA)</dd></div>
+        <div><dt>IA &amp; vision</dt><dd>Détection d'objets (YOLO, SSD, Faster R-CNN)</dd></div>
+        <div><dt>Instrumentation</dt><dd>Oscilloscope, générateur de signaux, analyseur logique, caméra infrarouge</dd></div>
+      </dl>
+    </div>
+
+    <div class="block" id="formation">
+      <h3>Formation</h3>
+      <dl class="rows">
+        <div><dt>2023 – 2026</dt><dd><strong>Diplôme d'ingénieur, INSA Hauts-de-France</strong><br>Spécialité Électronique des Systèmes Embarqués (ESE), Valenciennes</dd></div>
+        <div><dt>2021 – 2023</dt><dd><strong>Cycle préparatoire, INSA Hauts-de-France</strong><br>Valenciennes</dd></div>
+        <div><dt>2018 – 2021</dt><dd><strong>Baccalauréat général, lycée Jacques-Decour</strong><br>Spécialités Mathématiques et Physique-Chimie, mention Assez Bien, Paris</dd></div>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<footer class="closing" id="contact">
+  <div class="wrap gut">
+    <h2>Contact</h2>
+    <a class="mail" id="mail" href="mailto:yasserelbosraty4@gmail.com">yasserelbosraty4@gmail.com</a>
+    <div class="actions">
+      <a class="cta" href="mailto:yasserelbosraty4@gmail.com">Me contacter</a>
+      <a class="ghost cv" href="ELBOSRATY_Yasser_CV.pdf" target="_blank" rel="noopener">Voir mon CV</a>
+      <button class="ghost" id="copy" type="button">Copier l'adresse</button>
+      <a class="ghost" href="https://www.linkedin.com/in/yasser-elbosraty-2a8113242">LinkedIn</a>
+      <a class="ghost" href="https://github.com/Yasser82-2">GitHub</a>
+
+    </div>
+    <p class="mono meta">Yasser Elbosraty · Mis à jour en novembre 2026</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (id) { return document.getElementById(id); };
+  var C = { fg: "#fbf7ee", muted: "#a8a59e", line: "#34342f", ascii: "#41413c", orange: "#ff5a0a", text: "#ff8a4c" };
+
+  // Apparition des blocs : ils restent visibles si l'observateur ne s'exécute pas.
+  if ("IntersectionObserver" in window && !calm) {
+    var seen = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); seen.unobserve(e.target); }
+      });
+    });
+    document.querySelectorAll(".reveal").forEach(function (el) { seen.observe(el); });
+  }
+
+  // Filtre des projets
+  var filters = document.querySelectorAll(".filters button"), items = document.querySelectorAll("#list .item");
+  filters.forEach(function (b) {
+    b.addEventListener("click", function () {
+      filters.forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+      items.forEach(function (it) {
+        it.hidden = b.dataset.f !== "tous" && it.dataset.cat.split(" ").indexOf(b.dataset.f) < 0;
+      });
+    });
+  });
+
+  // Copie de l'adresse
+  $("copy").addEventListener("click", function () {
+    var btn = this, done = function (t) { btn.textContent = t; setTimeout(function () { btn.textContent = "Copier l'adresse"; }, 2000); };
+    var pick = function () { var r = document.createRange(); r.selectNodeContents($("mail")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); done("Adresse sélectionnée"); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText("yasserelbosraty4@gmail.com").then(function () { done("Adresse copiée"); }, pick);
+    } else pick();
+  });
+
+  // Le signal morse : prénom, spécialité, recherche (point 1, trait 3, intervalle 1, entre lettres 3, entre mots 7, entre parties 14).
+  var MORSE = { A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.", G: "--.", H: "....", I: "..", J: ".---", K: "-.-", L: ".-..", M: "--", N: "-.", O: "---", P: ".--.", Q: "--.-", R: ".-.", S: "...", T: "-", U: "..-", V: "...-", W: ".--", X: "-..-", Y: "-.--", Z: "--..", 0: "-----", 1: ".----", 2: "..---", 3: "...--", 4: "....-", 5: ".....", 6: "-....", 7: "--...", 8: "---..", 9: "----." };
+  var PHRASES = ["YASSER", "SYSTEMES EMBARQUES FPGA", "CHERCHE CDI CDD"];
+  var highs = [], letters = [], spans = [], cursor = 2;
+  PHRASES.forEach(function (phrase, pi) {
+    var from = cursor;
+    phrase.split(" ").forEach(function (w, wi) {
+      if (wi) cursor += 4;
+      w.split("").forEach(function (ch) {
+        var start = cursor;
+        MORSE[ch].split("").forEach(function (s, i) {
+          if (i) cursor += 1;
+          var d = s === "-" ? 3 : 1;
+          highs.push([cursor, cursor + d]);
+          cursor += d;
+        });
+        letters.push([ch, (start + cursor) / 2]);
+        cursor += 3;
+      });
+    });
+    spans.push([from, cursor]);
+    cursor += 11;
+  });
+  var PERIOD = cursor, offset = 0;
+  var segEls = document.querySelectorAll(".seg"), segNow = -1;
+  function markSegment() {
+    var v = ((offset + (sw - left) / u * 0.5) % PERIOD + PERIOD) % PERIOD, found = segNow;
+    spans.forEach(function (s, i) { if (v >= s[0] && v < s[1] + 11) found = i; });
+    if (found === segNow) return;
+    segNow = found;
+    segEls.forEach(function (el, i) { el.classList.toggle("now", i === found); });
+  }
+  function isHigh(v) {
+    v = ((v % PERIOD) + PERIOD) % PERIOD;
+    for (var i = 0; i < highs.length; i++) if (v >= highs[i][0] && v < highs[i][1]) return true;
+    return false;
+  }
+
+  // Chronogramme de l'ouverture
+  var scope = $("scope"), sc = scope.getContext("2d"), sw = 0, sh = 0, u = 9, left = 50;
+  function wave(segments, period, top, bottom, stroke, width) {
+    var a = offset, b = offset + (sw - left) / u;
+    var x = function (v) { return left + (v - offset) * u; };
+    sc.beginPath();
+    sc.moveTo(left, bottom);
+    for (var n = Math.floor(a / period) - 1; n <= Math.floor(b / period); n++) {
+      segments.forEach(function (s) {
+        var s0 = s[0] + n * period, s1 = s[1] + n * period;
+        if (s1 < a || s0 > b) return;
+        sc.lineTo(x(s0), bottom);
+        sc.lineTo(x(s0), top);
+        sc.lineTo(x(s1), top);
+        sc.lineTo(x(s1), bottom);
+      });
+    }
+    sc.lineTo(sw, bottom);
+    sc.strokeStyle = stroke;
+    sc.lineWidth = width;
+    sc.lineJoin = "miter";
+    sc.stroke();
+  }
+  function drawScope() {
+    markSegment();
+    sc.clearRect(0, 0, sw, sh);
+    sc.font = "300 10px 'Martian Mono', Consolas, monospace";
+    sc.textBaseline = "middle";
+    sc.textAlign = "left";
+    sc.fillStyle = C.muted;
+    sc.fillText("clk", 0, 13);
+    sc.fillText("tick", 0, 34);
+    sc.fillText("morse", 0, 74);
+    sc.save();
+    sc.beginPath();
+    sc.rect(left, 0, sw - left, sh);
+    sc.clip();
+    wave([[0, 0.5]], 1, 7, 19, C.muted, 1);
+    wave([[0, 0.5]], 8, 28, 40, C.muted, 1);
+    wave(highs, PERIOD, 62, 86, C.orange, 2);
+    sc.fillStyle = C.fg;
+    sc.textAlign = "center";
+    for (var n = Math.floor(offset / PERIOD) - 1; n <= Math.floor((offset + (sw - left) / u) / PERIOD); n++) {
+      letters.forEach(function (l) { sc.fillText(l[0], left + (l[1] + n * PERIOD - offset) * u, 52); });
+    }
+    sc.restore();
+  }
+
+  // Fond en caractères ASCII : une puce sur son circuit, qui réagit au pointeur et reçoit le signal morse.
+  var asc = $("ascii"), ac = asc.getContext("2d"), layer = document.createElement("canvas");
+  var ratio = Math.min(window.devicePixelRatio || 1, 2), W = 0, H = 0, cw = 11, ch = 16, GW = 0, GH = 0;
+  var cx = 0, cy = 0, k = 1, traces = [], density = null, pointer = null;
+  var RAMP = ". : + ! & % 8".split(" ");
+  var word = null, wordPhase = "fill", wordClock = 0, wordP = 0, wordNext = 0, wordFade = 1;
+  function charFor(v) { return RAMP[Math.min(RAMP.length - 1, Math.floor(v * RAMP.length))]; }
+  function iso(x, y) { return [cx + (x - y), cy + (x + y) * 0.5 * k]; }
+
+  function buildScene() {
+    GW = Math.ceil(W / cw); GH = Math.ceil(H / ch);
+    var g = document.createElement("canvas");
+    g.width = GW; g.height = GH;
+    var c = g.getContext("2d", { willReadFrequently: true });
+    var wide = W >= 832;
+    k = cw / ch;
+    cx = GW * (wide ? 0.66 : 0.5);
+    cy = GH * (wide ? 0.34 : 0.3);
+    var q = Math.min(GW * (wide ? 0.15 : 0.26), GH * (wide ? 0.32 : 0.2));
+    var lift = q * 0.2 * k;
+    traces = [];
+    c.setTransform(1, 0.5 * k, -1, 0.5 * k, cx, cy);
+    c.lineWidth = Math.max(1.3, q * 0.07);
+    c.strokeStyle = "#b0b0b0";
+    [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (d) {
+      var p = [-d[1], d[0]];
+      for (var n = -3; n <= 3; n++) {
+        var o = n * q / 3.6, s = n === 0 ? 0 : (n > 0 ? 1 : -1), l1 = q * 0.3 + Math.abs(n) * q * 0.07;
+        var a = [d[0] * q + p[0] * o, d[1] * q + p[1] * o];
+        var b = [a[0] + d[0] * l1, a[1] + d[1] * l1];
+        var e = [b[0] + p[0] * s * q * 0.32, b[1] + p[1] * s * q * 0.32];
+        var f = [e[0] + d[0] * q * 2.4, e[1] + d[1] * q * 2.4];
+        traces.push([a, b, e, f]);
+        c.beginPath(); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]); c.lineTo(e[0], e[1]); c.lineTo(f[0], f[1]); c.stroke();
+      }
+    });
+    // Bord estompé
+    c.setTransform(1, 0, 0, k, 0, 0);
+    c.globalCompositeOperation = "destination-in";
+    var fade = c.createRadialGradient(cx, cy / k, q * 1.1, cx, cy / k, q * 3.7);
+    fade.addColorStop(0, "#000");
+    fade.addColorStop(1, "rgba(0,0,0,0)");
+    c.fillStyle = fade;
+    c.fillRect(0, 0, GW, GH / k);
+    c.globalCompositeOperation = "source-over";
+    // Boîtier
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    var A = iso(q, -q), B = iso(q, q), D = iso(-q, q);
+    c.fillStyle = "#777";
+    c.beginPath(); c.moveTo(D[0], D[1]); c.lineTo(B[0], B[1]); c.lineTo(B[0], B[1] - lift); c.lineTo(D[0], D[1] - lift); c.fill();
+    c.fillStyle = "#5a5a5a";
+    c.beginPath(); c.moveTo(B[0], B[1]); c.lineTo(A[0], A[1]); c.lineTo(A[0], A[1] - lift); c.lineTo(B[0], B[1] - lift); c.fill();
+    c.setTransform(1, 0.5 * k, -1, 0.5 * k, cx, cy - lift);
+    c.fillStyle = "#b5b5b5";
+    c.fillRect(-q, -q, q * 2, q * 2);
+    c.fillStyle = "#c4c4c4";
+    c.fillRect(-q * 0.84, -q * 0.84, q * 1.68, q * 1.68);
+    c.setTransform(1, 0, 0, 1, 0, 0);
+
+
+    var data = c.getImageData(0, 0, GW, GH).data;
+    density = new Float32Array(GW * GH);
+    layer.width = asc.width; layer.height = asc.height;
+    var l = layer.getContext("2d");
+    l.setTransform(ratio, 0, 0, ratio, 0, 0);
+    l.font = "300 " + (cw * 0.86) + "px 'Martian Mono', Consolas, monospace";
+    l.textBaseline = "top";
+    // Le mot FPGA, en perspective sur la puce : tracé en orange avec des caractères plus fins pour rester net.
+    var fw = W < 560 ? 3 : 4, fh = W < 560 ? 4 : 5, sx = cw / fw, sy = ch / fh;
+    var m = document.createElement("canvas");
+    m.width = Math.ceil(W / fw); m.height = Math.ceil(H / fh);
+    var mc = m.getContext("2d", { willReadFrequently: true });
+    mc.setTransform(sx, 0.5 * k * sy, -sx, 0.5 * k * sy, cx * sx, (cy - lift) * sy);
+    mc.fillStyle = "#fff";
+    mc.font = "700 " + (q * 0.54) + "px Arial, sans-serif";
+    mc.letterSpacing = (q * 0.02) + "px";
+    mc.textAlign = "center";
+    mc.textBaseline = "middle";
+    mc.fillText("FPGA", 0, 0);
+    var mask = mc.getImageData(0, 0, m.width, m.height).data;
+    for (var y = 0; y < GH; y++) {
+      for (var x = 0; x < GW; x++) {
+        var i = (y * GW + x) * 4, v = (data[i] / 255) * (data[i + 3] / 255);
+        density[y * GW + x] = v;
+        if (v < 0.08) continue;
+        l.fillStyle = v > 0.82 ? "#7d7c76" : v > 0.45 ? "#5c5b56" : C.ascii;
+        l.fillText(charFor(Math.min(1, v * (0.85 + Math.random() * 0.3))), x * cw, y * ch);
+      }
+    }
+    // Silhouette vide du mot, puis liste des cellules à remplir de gauche à droite.
+    var cells = [], minX = 1e9, maxX = -1, minY = 1e9, maxY = -1;
+    for (var my = 0; my < m.height; my++) {
+      for (var mx = 0; mx < m.width; mx++) {
+        if (mask[(my * m.width + mx) * 4 + 3] < 130) continue;
+        cells.push({ x: mx, y: my });
+        if (mx < minX) minX = mx;
+        if (mx > maxX) maxX = mx;
+        if (my < minY) minY = my;
+        if (my > maxY) maxY = my;
+      }
+    }
+    l.font = "400 " + (fh * 0.95) + "px 'Martian Mono', Consolas, monospace";
+    cells.forEach(function (cell) {
+      l.fillStyle = "#161615";
+      l.fillRect(cell.x * fw, cell.y * fh, fw, fh);
+      l.fillStyle = "#6f6e68";
+      l.fillText(".", cell.x * fw, cell.y * fh);
+      cell.t = (cell.x - minX) / Math.max(1, maxX - minX) * 0.74 + Math.random() * 0.26;
+    });
+    cells.sort(function (a, b) { return a.t - b.t; });
+    var box = { x: minX * fw, y: minY * fh, w: (maxX - minX + 1) * fw, h: (maxY - minY + 1) * fh };
+    var plane = function () {
+      var cv = document.createElement("canvas");
+      cv.width = Math.ceil(box.w * ratio); cv.height = Math.ceil(box.h * ratio);
+      var x = cv.getContext("2d");
+      x.setTransform(ratio, 0, 0, ratio, -box.x * ratio, -box.y * ratio);
+      x.font = l.font;
+      x.textBaseline = "top";
+      return x;
+    };
+    word = { cells: cells, box: box, fw: fw, fh: fh, white: plane(), orange: plane() };
+    wordPhase = "fill"; wordClock = 0; wordP = 0; wordNext = 0; wordFade = 1;
+    if (calm) { paintWord(cells.length); wordP = 1; wordPhase = "hold"; }
+  }
+  function paintCell(cell) {
+    var X = cell.x * word.fw, Y = cell.y * word.fh, bit = Math.random() < 0.5 ? "0" : "1";
+    word.white.fillStyle = "#2b2a27";
+    word.white.fillRect(X, Y, word.fw, word.fh);
+    word.white.fillStyle = "#f4efe4";
+    word.white.fillText(bit, X, Y);
+    word.orange.fillStyle = "#c9460a";
+    word.orange.fillRect(X, Y, word.fw, word.fh);
+    word.orange.fillStyle = "#ffb27e";
+    word.orange.fillText(bit, X, Y);
+  }
+  function paintWord(upto) { for (var i = wordNext; i < upto; i++) paintCell(word.cells[i]); wordNext = upto; }
+  var FILL_MS = 7000, HOLD_MS = 3000, FADE_MS = 900;
+  function updateWord(dt) {
+    if (!word || !word.cells.length) return;
+    wordClock += dt;
+    if (wordPhase === "fill") {
+      wordP = Math.min(1, wordClock / FILL_MS);
+      var n = wordNext;
+      while (n < word.cells.length && word.cells[n].t <= wordP) n++;
+      paintWord(n);
+      if (wordP >= 1) { paintWord(word.cells.length); wordPhase = "hold"; wordClock = 0; }
+    } else if (wordPhase === "hold") {
+      if (wordClock >= HOLD_MS) { wordPhase = "fade"; wordClock = 0; }
+    } else {
+      wordFade = Math.max(0, 1 - wordClock / FADE_MS);
+      if (wordFade === 0) {
+        [word.white, word.orange].forEach(function (x) { x.clearRect(word.box.x, word.box.y, word.box.w, word.box.h); });
+        wordPhase = "fill"; wordClock = 0; wordP = 0; wordNext = 0; wordFade = 1;
+      }
+    }
+    // Les chiffres déjà arrivés continuent de changer.
+    for (var i = 0; i < 28 && wordNext > 0; i++) paintCell(word.cells[Math.floor(Math.random() * wordNext)]);
+  }
+  function drawWord() {
+    if (!word || !wordNext) return;
+    var o = wordP * wordP * (3 - 2 * wordP), bx = word.box.x * ratio, by = word.box.y * ratio;
+    ac.setTransform(1, 0, 0, 1, 0, 0);
+    ac.globalAlpha = (1 - o) * wordFade;
+    if (ac.globalAlpha > 0) ac.drawImage(word.white.canvas, bx, by);
+    ac.globalAlpha = o * wordFade;
+    if (ac.globalAlpha > 0) ac.drawImage(word.orange.canvas, bx, by);
+    ac.globalAlpha = 1;
+    ac.setTransform(ratio, 0, 0, ratio, 0, 0);
+  }
+  function drawAscii() {
+    ac.setTransform(1, 0, 0, 1, 0, 0);
+    ac.clearRect(0, 0, asc.width, asc.height);
+    if (layer.width) ac.drawImage(layer, 0, 0);
+    ac.setTransform(ratio, 0, 0, ratio, 0, 0);
+    drawWord();
+    ac.font = "300 " + (cw * 0.86) + "px 'Martian Mono', Consolas, monospace";
+    ac.textBaseline = "top";
+    // Le même signal morse circule sur les pistes vers la puce, écrit en 0 et 1.
+    ac.fillStyle = C.fg;
+    traces.forEach(function (t, n) {
+      var dist = 0, total = 0, s;
+      for (s = 0; s < 3; s++) total += Math.hypot(t[s + 1][0] - t[s][0], t[s + 1][1] - t[s][1]);
+      for (s = 0; s < 3; s++) {
+        var a = t[s], b = t[s + 1], len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+        for (var i = 0; i < len; i += 1, dist += 1) {
+          if (!isHigh(dist / 1.4 + offset + n * 9)) continue;
+          var r = i / (len || 1), p = iso(a[0] + (b[0] - a[0]) * r, a[1] + (b[1] - a[1]) * r);
+          ac.globalAlpha = Math.max(0, 1 - dist / total) * 0.7;
+          ac.fillText(dist % 3 ? "1" : "0", Math.round(p[0]) * cw, Math.round(p[1]) * ch);
+        }
+      }
+    });
+    // Autour du pointeur, les caractères s'allument et changent.
+    if (pointer) {
+      var R = 130, gx0 = Math.max(0, Math.floor((pointer[0] - R) / cw)), gx1 = Math.min(GW - 1, Math.ceil((pointer[0] + R) / cw));
+      var gy0 = Math.max(0, Math.floor((pointer[1] - R) / ch)), gy1 = Math.min(GH - 1, Math.ceil((pointer[1] + R) / ch));
+      for (var y = gy0; y <= gy1; y++) {
+        for (var x = gx0; x <= gx1; x++) {
+          var dx = x * cw - pointer[0], dy = y * ch - pointer[1], d = Math.sqrt(dx * dx + dy * dy);
+          if (d > R) continue;
+          var v = density[y * GW + x], f = 1 - d / R;
+          ac.globalAlpha = f * (v > 0.08 ? 1 : 0.55);
+          ac.fillStyle = f > 0.72 ? C.orange : C.fg;
+          ac.fillText(charFor(Math.random()), x * cw, y * ch);
+        }
+      }
+    }
+    ac.globalAlpha = 1;
+  }
+  var hero = document.querySelector(".hero");
+  if (!calm) {
+    hero.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      var b = asc.getBoundingClientRect();
+      pointer = [e.clientX - b.left, e.clientY - b.top];
+    });
+    hero.addEventListener("pointerleave", function () { pointer = null; });
+  }
+
+  // Boucle fermée du chemin de données
+  var loop = $("loop"), loopInfo = $("loopinfo"), loopPts = [], loopNodes = [], dot = null, loopLen = 0, loopPos = 0;
+  var STAGES = [
+    { t: ["DDR4", "émission"], d: "Zone mémoire d'émission : les données de départ." },
+    { t: ["DataMover", "MM2S"], d: "Le DataMover lit la mémoire et envoie les données en flux." },
+    { t: ["FIFO", "double horloge"], d: "La FIFO fait passer les données d'un domaine d'horloge à l'autre." },
+    { t: ["10G Ethernet"], d: "Le cœur 10G Ethernet met les données en forme pour la liaison à 10 Gbit/s." },
+    { t: ["SFP+"], d: "Le module SFP+ convertit le signal pour la fibre optique." },
+    { t: ["Fibre"], d: "La fibre reboucle l'émission sur la réception : c'est ce qui ferme la boucle." },
+    { t: ["SFP+"], d: "Le module SFP+ reçoit le signal de la fibre." },
+    { t: ["10G Ethernet"], d: "Le cœur 10G Ethernet récupère les données reçues." },
+    { t: ["FIFO", "double horloge"], d: "La FIFO repasse les données dans le domaine d'horloge de la mémoire." },
+    { t: ["DataMover", "S2MM"], d: "Le DataMover écrit le flux reçu en mémoire." },
+    { t: ["DDR4", "réception"], d: "Zone mémoire de réception : identique à l'émission, octet par octet." }
+  ];
+  var SVG = "http://www.w3.org/2000/svg";
+  function el(name, attrs, parent) {
+    var n = document.createElementNS(SVG, name);
+    for (var a in attrs) n.setAttribute(a, attrs[a]);
+    (parent || loop).appendChild(n);
+    return n;
+  }
+  function buildLoop() {
+    var wide = loop.getBoundingClientRect().width >= 560;
+    while (loop.firstChild) loop.removeChild(loop.firstChild);
+    var bw = wide ? 128 : 118, bh = 50, pos = [], vw, vh, i;
+    if (wide) {
+      vw = 960; vh = 270;
+      for (i = 0; i < 5; i++) pos.push([74 + i * 165, 40]);
+      pos.push([874, 135]);
+      for (i = 4; i >= 0; i--) pos.push([74 + i * 165, 230]);
+    } else {
+      vw = 360; vh = 470;
+      for (i = 0; i < 5; i++) pos.push([70, 34 + i * 72]);
+      pos.push([180, 430]);
+      for (i = 4; i >= 0; i--) pos.push([290, 34 + i * 72]);
+    }
+    loop.setAttribute("viewBox", "0 0 " + vw + " " + vh);
+    loopPts = pos;
+    var d = "M" + pos.map(function (p) { return p[0] + " " + p[1]; }).join("L");
+    el("path", { d: d, "class": "wire" });
+    var a = pos[pos.length - 1], b = pos[0];
+    el("path", { d: "M" + a[0] + " " + a[1] + "L" + b[0] + " " + b[1], "class": "wire back" });
+    var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+    var eqBack = el("rect", { x: mx - 15, y: my - 15, width: 30, height: 30, rx: 15, style: "fill:#1f1f1d" });
+    el("text", { x: mx, y: my + 1, "class": "eq" }).textContent = "=";
+    if (wide) {
+      var nt = el("text", { x: mx + 24, y: my + 4, "class": "note" });
+      nt.textContent = "identique octet par octet";
+      var rv = el("text", { x: 500, y: 139, "class": "note", "text-anchor": "middle" });
+      rv.textContent = "piloté par un RISC-V soft-core";
+    }
+    dot = el("circle", { r: wide ? 7 : 6, cx: pos[0][0], cy: pos[0][1], "class": "dot" });
+    loopNodes = [];
+    STAGES.forEach(function (st, n) {
+      var p = pos[n];
+      var g = el("g", { "class": "nd", tabindex: "0", role: "button", "aria-label": st.t.join(" ") + " : " + st.d });
+      el("rect", { x: p[0] - bw / 2, y: p[1] - bh / 2, width: bw, height: bh, rx: 7 }, g);
+      st.t.forEach(function (line, li) {
+        var off = st.t.length === 1 ? 0 : (li === 0 ? -9 : 9);
+        var tx = el("text", { x: p[0], y: p[1] + off + 1 }, g);
+        tx.textContent = line;
+      });
+      var show = function () { loopInfo.textContent = st.t.join(" ") + " : " + st.d; };
+      g.addEventListener("click", show);
+      g.addEventListener("focus", show);
+      g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); show(); } });
+      loopNodes.push(g);
+    });
+    loop.appendChild(dot);
+    loopLen = 0;
+    for (i = 1; i < pos.length; i++) loopLen += Math.hypot(pos[i][0] - pos[i - 1][0], pos[i][1] - pos[i - 1][1]);
+    loopLen += Math.hypot(a[0] - b[0], a[1] - b[1]);
+  }
+  function drawLoop() {
+    if (!dot) return;
+    var left = loopPos * loopLen, i, n = loopPts.length, x = loopPts[0][0], y = loopPts[0][1];
+    for (i = 0; i < n; i++) {
+      var p = loopPts[i], q = loopPts[(i + 1) % n], L = Math.hypot(q[0] - p[0], q[1] - p[1]);
+      if (left <= L) { x = p[0] + (q[0] - p[0]) * left / L; y = p[1] + (q[1] - p[1]) * left / L; break; }
+      left -= L;
+    }
+    dot.setAttribute("cx", x);
+    dot.setAttribute("cy", y);
+    loopNodes.forEach(function (g, m) {
+      g.classList.toggle("on", Math.hypot(loopPts[m][0] - x, loopPts[m][1] - y) < 56);
+    });
+  }
+
+  // Décodeur : même logique que le projet VHDL (seuils 400 et 800 ms, LFSR 16 bits, états de jeu).
+  var DOT_MAX = 400, GAP = 800, WIN_MS = 1000;
+  var REVERSE = {};
+  Object.keys(MORSE).forEach(function (c) { REVERSE[MORSE[c]] = c; });
+  var ROM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ012345";
+  var lfsr = (Date.now() & 0xffff) || 0xace1;
+  function nextIndex() {
+    for (var i = 0; i < 17; i++) {
+      var fb = ((lfsr >> 15) ^ (lfsr >> 13) ^ (lfsr >> 12) ^ (lfsr >> 10)) & 1;
+      lfsr = ((lfsr << 1) | fb) & 0xffff;
+    }
+    return lfsr & 31;
+  }
+  var key = $("key"), hex = $("hex"), seqEl = $("seq"), msg = $("msg"), scoreEl = $("score"), ledG = $("ledG"), ledR = $("ledR"), fsm = $("fsm"), holdBar = $("holdBar");
+  var mode = "dec", seq = "", down = false, downAt = 0, gapTimer = null, stepTimer = null, target = "", score = 0, text = "", state = "IDLE";
+  var events = [], marks = [];
+  function setState(s) {
+    state = s;
+    fsm.querySelectorAll(".st").forEach(function (g) { g.classList.toggle("on", g.dataset.s === s); });
+  }
+  function leds(g, r) { ledG.classList.toggle("on", !!g); ledR.classList.toggle("on", !!r); }
+  function later(fn, ms) { clearTimeout(stepTimer); stepTimer = setTimeout(fn, ms); }
+  function newChallenge() {
+    setState("NEW_CHALLENGE");
+    leds(0, 0);
+    later(function () {
+      target = ROM[nextIndex()];
+      waitInput();
+    }, 220);
+  }
+  function waitInput() {
+    setState("WAIT_INPUT");
+    leds(0, 0);
+    hex.textContent = target;
+    msg.textContent = "Reproduisez " + target + " : " + MORSE[target].replace(/\./g, "·").replace(/-/g, "–");
+  }
+  function check(ch) {
+    setState("CHECK");
+    later(function () {
+      if (ch === target) {
+        score++;
+        setState("WIN"); leds(1, 0);
+        msg.textContent = "Réussi. Nouvelle lettre dans un instant.";
+        scoreEl.textContent = "Réussites : " + score;
+        later(newChallenge, WIN_MS);
+      } else {
+        setState("FAIL"); leds(0, 1);
+        msg.textContent = "Ce n'est pas la bonne lettre (" + (ch || "inconnue") + "). On recommence.";
+        later(waitInput, WIN_MS);
+      }
+    }, 180);
+  }
+  function endOfChar() {
+    var ch = REVERSE[seq] || "";
+    marks.push([performance.now(), ch || "?"]);
+    if (mode === "dec") {
+      hex.textContent = ch || "?";
+      if (ch) text = (text + ch).slice(-14);
+      msg.textContent = text ? "Texte décodé : " + text : "Séquence inconnue, essayez encore.";
+    } else if (state === "WAIT_INPUT") {
+      check(ch);
+    }
+    seq = "";
+    seqEl.textContent = "";
+  }
+  function press() {
+    if (down) return;
+    if (mode === "game" && state !== "WAIT_INPUT") return;
+    down = true;
+    downAt = performance.now();
+    events.push([downAt, 1]);
+    key.classList.add("down");
+    clearTimeout(gapTimer);
+  }
+  function release() {
+    if (!down) return;
+    down = false;
+    var now = performance.now();
+    events.push([now, 0]);
+    key.classList.remove("down");
+    holdBar.style.width = "0";
+    seq += now - downAt < DOT_MAX ? "." : "-";
+    seqEl.textContent = seq.replace(/\./g, "·").replace(/-/g, "–");
+    clearTimeout(gapTimer);
+    gapTimer = setTimeout(endOfChar, GAP);
+  }
+  key.addEventListener("pointerdown", function (e) {
+    e.preventDefault();
+    try { key.setPointerCapture(e.pointerId); } catch (err) {}
+    key.focus({ preventScroll: true });
+    press();
+  });
+  key.addEventListener("pointerup", release);
+  key.addEventListener("pointercancel", release);
+  key.addEventListener("lostpointercapture", release);
+  key.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+  key.addEventListener("keydown", function (e) {
+    if (e.key !== " " && e.key !== "Enter") return;
+    e.preventDefault();
+    if (!e.repeat) press();
+  });
+  key.addEventListener("keyup", function (e) {
+    if (e.key === " " || e.key === "Enter") { e.preventDefault(); release(); }
+  });
+  key.addEventListener("blur", release);
+  function setMode(m) {
+    mode = m;
+    $("modeDec").setAttribute("aria-pressed", String(m === "dec"));
+    $("modeGame").setAttribute("aria-pressed", String(m === "game"));
+    clearTimeout(gapTimer); clearTimeout(stepTimer);
+    seq = ""; seqEl.textContent = ""; text = ""; score = 0; target = "";
+    scoreEl.textContent = "";
+    hex.textContent = "–";
+    leds(0, 0);
+    fsm.classList.toggle("off", m === "dec");
+    if (m === "dec") {
+      setState("IDLE");
+      msg.textContent = "Essayez un appui court suivi d'une pause : vous obtenez la lettre E.";
+    } else {
+      setState("IDLE");
+      scoreEl.textContent = "Réussites : 0";
+      msg.textContent = "Préparation de la première lettre.";
+      later(newChallenge, 300);
+    }
+  }
+  $("modeDec").addEventListener("click", function () { setMode("dec"); });
+  $("modeGame").addEventListener("click", function () { setMode("game"); });
+  $("reset").addEventListener("click", function () { setMode(mode); });
+  setState("IDLE");
+
+  // Chronogramme en direct des appuis
+  var live = $("live"), lc = live.getContext("2d"), lw = 0, lh = 0, WINDOW = 7000;
+  function drawLive(now) {
+    lc.clearRect(0, 0, lw, lh);
+    lc.font = "300 10px 'Martian Mono', Consolas, monospace";
+    lc.textBaseline = "middle";
+    lc.textAlign = "left";
+    lc.fillStyle = C.muted;
+    lc.fillText("key", 0, 44);
+    var x0 = 34, t0 = now - WINDOW, X = function (t) { return x0 + (t - t0) / WINDOW * (lw - x0); };
+    lc.beginPath();
+    var yHi = 28, yLo = 60, level = 0, first = true;
+    events = events.filter(function (e, i) { return e[0] > t0 - 2000 || i === events.length - 1; });
+    events.forEach(function (e) {
+      if (e[0] < t0) { level = e[1]; return; }
+      if (first) { lc.moveTo(x0, level ? yHi : yLo); first = false; }
+      lc.lineTo(X(e[0]), level ? yHi : yLo);
+      lc.lineTo(X(e[0]), e[1] ? yHi : yLo);
+      level = e[1];
+    });
+    if (first) lc.moveTo(x0, level ? yHi : yLo);
+    lc.lineTo(lw, level ? yHi : yLo);
+    lc.strokeStyle = C.orange;
+    lc.lineWidth = 2;
+    lc.stroke();
+    lc.textAlign = "center";
+    lc.fillStyle = C.fg;
+    marks = marks.filter(function (m) { return m[0] > t0; });
+    marks.forEach(function (m) { lc.fillText(m[1], X(m[0]), 12); });
+    if (down) {
+      var held = now - downAt;
+      holdBar.style.width = Math.min(100, held / (DOT_MAX * 2) * 100) + "%";
+    }
+  }
+
+  // Dimensions
+  function size() {
+    var r = window.devicePixelRatio || 1, b = scope.getBoundingClientRect();
+    sw = b.width; sh = b.height;
+    scope.width = Math.round(sw * r); scope.height = Math.round(sh * r);
+    sc.setTransform(r, 0, 0, r, 0, 0);
+    u = sw < 420 ? 6 : 8;
+    left = 46;
+    var d = asc.getBoundingClientRect();
+    W = d.width; H = d.height;
+    cw = W < 560 ? 8 : 11;
+    ch = W < 560 ? 12 : 16;
+    asc.width = Math.round(W * ratio); asc.height = Math.round(H * ratio);
+    var l = live.getBoundingClientRect();
+    lw = l.width; lh = l.height;
+    live.width = Math.round(lw * r); live.height = Math.round(lh * r);
+    lc.setTransform(r, 0, 0, r, 0, 0);
+    buildScene();
+    buildLoop();
+    drawScope(); drawAscii(); drawLoop(); drawLive(performance.now());
+  }
+  size();
+  var pending;
+  window.addEventListener("resize", function () { clearTimeout(pending); pending = setTimeout(size, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
+
+  // Boucle d'animation : chaque zone ne se redessine que si elle est à l'écran.
+  var seenHero = true, seenLoop = false, seenLive = false, last = 0;
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (e) { seenHero = e[0].isIntersecting; }).observe(hero);
+    new IntersectionObserver(function (e) { seenLoop = e[0].isIntersecting; }).observe(loop);
+    new IntersectionObserver(function (e) { seenLive = e[0].isIntersecting; }).observe(live);
+  } else { seenLoop = seenLive = true; }
+  function step(now) {
+    var dt = last ? Math.min(now - last, 100) : 0;
+    last = now;
+    if (!calm) {
+      offset = (offset + dt * 0.011) % (PERIOD * 1000);
+      if (seenHero) { updateWord(dt); drawScope(); drawAscii(); }
+      if (seenLoop) { loopPos = (loopPos + dt / 7000) % 1; drawLoop(); }
+    }
+    if (seenLive) drawLive(performance.now());
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+</script>
+</body>
+</html>
