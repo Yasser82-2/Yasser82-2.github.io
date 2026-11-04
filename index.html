@@ -86,7 +86,8 @@ h1 { font-size: clamp(3.6rem, 12.2vw, 10rem); line-height: 0.92; letter-spacing:
 .secret { display: flex; gap: 0.75rem; align-items: baseline; border: 1px dashed var(--orange); border-radius: 8px; padding: 0.55rem 0.8rem; font-size: 0.9375rem; }
 .secret strong { font: 400 0.6875rem/1.5 var(--mono); color: var(--orange-text); text-transform: uppercase; }
 .parts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 2.5rem; }
-.part { display: grid; gap: 0.65rem; align-content: start; min-width: 0; }
+.part { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.65rem; align-content: start; min-width: 0; }
+.testlog { min-width: 0; }
 .part h4 { margin: 0; font: 700 1.25rem/1.15 var(--sans); letter-spacing: -0.02em; }
 .loopbox { border-top: 1px solid var(--line); padding-top: 1.25rem; display: grid; gap: 0.7rem; }
 .loop { display: block; width: 100%; height: auto; }
@@ -100,6 +101,13 @@ h1 { font-size: clamp(3.6rem, 12.2vw, 10rem); line-height: 0.92; letter-spacing:
 .loop .dot { fill: var(--orange); }
 .loop .eq { fill: var(--orange-text); font: 700 22px var(--sans); text-anchor: middle; dominant-baseline: middle; }
 .loop .note { fill: var(--muted); font: 300 11px var(--mono); }
+.testlog pre { margin: 0.6rem 0; padding: 0.7rem 0.8rem; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; overflow-x: auto; font: 300 0.6875rem/1.55 var(--mono); }
+.testlog pre b { font-weight: 400; color: var(--orange-text); }
+.testlog summary { display: inline-block; padding: 0.5rem 0.9rem; background: var(--orange); color: #fff; border-radius: 8px; font-weight: 600; transition: background-color 0.15s ease, color 0.15s ease; }
+.testlog summary::-webkit-details-marker { display: none; }
+.testlog summary::before { content: "▸ "; }
+.testlog[open] summary::before { content: "▾ "; }
+.testlog summary:hover { background: var(--fg); color: var(--bg); }
 .info { min-height: 3.1em; color: var(--fg); font-size: 0.9375rem; }
 
 /* Décodeur Morse interactif */
@@ -248,7 +256,30 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
           <h4>Implémentation matérielle de ML-DSA (FIPS 204)</h4>
           <p class="proof">Signature sur carte identique au vecteur de test officiel du NIST</p>
           <p>La norme NIST de signature post-quantique, développée de zéro en HLS : génération de clé, signature, SHAKE, NTT. Modèle de référence d'abord écrit en C, chaque module étant comparé à la référence pq-crystals. Timing respecté à 100 MHz, avec environ 50 % des LUT d'un XCKU040.</p>
-        </div>
+          <details class="testlog">
+            <summary>Voir le résultat du test</summary>
+            <pre tabindex="0" aria-label="Sortie du banc de test ML-DSA-44">========================================
+ NIST ACVP ML-DSA-44 FPGA TEST
+========================================
+ tgId : 7
+ tcId : 91
+ Interface : internal / externalMu
+ Deterministic : true
+----------------------------------------
+#TX_BYTES 2624
+#RX_BYTES 2424
+#FPGA START
+#FPGA DONE
+#ITERATIONS 3
+#FPGA_SIG_FIRST32 <b>3327aa270451d3e5aaa3e1e27a8414138d9270c1b44710f249693b205f890350</b>
+#NIST_SIG_FIRST32 <b>3327aa270451d3e5aaa3e1e27a8414138d9270c1b44710f249693b205f890350</b>
+#FPGA_SIG_LAST32  <b>44525a8f9bbdcbceebf000000000000000000000000000000000000013272f3e</b>
+#NIST_SIG_LAST32  <b>44525a8f9bbdcbceebf000000000000000000000000000000000000013272f3e</b>
+#CHECKED_BYTES 2420
+#VERDICT <b>NIST_ACVP_MATCH</b>
+========================================</pre>
+            <p class="credit">Sortie du banc de test pour un vecteur officiel du NIST (ML-DSA-44, tcId 91) : les 2420 octets de la signature produite par le FPGA sont identiques à ceux attendus. Il s'agit d'une vérification technique, pas d'une certification.</p>
+          </details>        </div>
       </div>
       <div class="loopbox">
         <p class="mono meta">La boucle de validation, en schéma simplifié. Cliquez sur un bloc pour voir son rôle.</p>
