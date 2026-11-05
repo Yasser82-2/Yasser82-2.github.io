@@ -71,6 +71,8 @@ h1 { font-size: clamp(3.6rem, 12.2vw, 10rem); line-height: 0.92; letter-spacing:
 .scope { display: block; width: 100%; height: 92px; }
 .scopebox .meta { font-size: 0.6875rem; }
 .seg { transition: color 0.2s linear; }
+.pausebtn { margin-left: 0.4rem; padding: 0.1rem 0.5rem; background: transparent; border: 1px solid var(--muted); border-radius: 6px; font: 300 0.6875rem/1.5 var(--mono); cursor: pointer; }
+.pausebtn:hover { border-color: var(--fg); }
 .seg.now { color: var(--orange-text); font-weight: 400; }
 
 /* Sections */
@@ -230,7 +232,7 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
 
   <div class="scopebox wrap" style="width:100%">
     <canvas class="scope" id="scope" role="img" aria-label="Chronogramme dont le signal écrit en code Morse : Yasser, systèmes embarqués et FPGA, cherche CDI ou CDD"></canvas>
-    <p class="mono meta">Le signal morse écrit : <span class="seg">YASSER</span> · <span class="seg">SYSTÈMES EMBARQUÉS, FPGA</span> · <span class="seg">CHERCHE CDI, CDD</span>. <a href="#decodeur">Écrire le vôtre avec mon décodeur</a></p>
+    <p class="mono meta">Le signal morse écrit : <span class="seg">YASSER</span> · <span class="seg">SYSTÈMES EMBARQUÉS, FPGA</span> · <span class="seg">CHERCHE CDI, CDD</span>. <a href="#decodeur">Écrire le vôtre avec mon décodeur</a> <button class="pausebtn" id="pause" type="button" aria-pressed="false">Pause</button></p>
   </div>
 </header>
 
@@ -584,6 +586,10 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
 (function () {
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var $ = function (id) { return document.getElementById(id); };
+  // Diagnostic : ouvrir le site avec #debug à la fin de l'adresse pour afficher l'état de l'animation.
+  var errs = [], frames = 0, paused = false, debug = location.hash === "#debug";
+  function report(e) { errs.push(String((e && e.message) || e)); }
+  window.addEventListener("error", function (e) { report(e.message + " l." + e.lineno); });
   var C = { fg: "#fbf7ee", muted: "#a8a59e", line: "#34342f", ascii: "#41413c", orange: "#ff5a0a", text: "#ff8a4c" };
 
   // Apparition des blocs : ils restent visibles si l'observateur ne s'exécute pas.
@@ -824,8 +830,7 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
     };
     word = { cells: cells, box: box, fw: fw, fh: fh, white: plane(), orange: plane() };
     wordPhase = "fill"; wordClock = 0; wordP = 0; wordNext = 0; wordFade = 1;
-    if (calm) { paintWord(cells.length); wordP = 1; wordPhase = "hold"; }
-  }
+ }
   function paintCell(cell) {
     var X = cell.x * word.fw, Y = cell.y * word.fh, bit = Math.random() < 0.5 ? "0" : "1";
     word.white.fillStyle = "#2b2a27";
@@ -1192,13 +1197,18 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
     lw = l.width; lh = l.height;
     live.width = Math.round(lw * r); live.height = Math.round(lh * r);
     lc.setTransform(r, 0, 0, r, 0, 0);
-    buildScene();
-    buildLoop();
-    drawScope(); drawAscii(); drawLoop(); drawLive(performance.now());
+    [buildScene, buildLoop, drawScope, drawAscii, drawLoop].forEach(function (f) { try { f(); } catch (err) { report(err); } });
+    try { drawLive(performance.now()); } catch (err) { report(err); }
   }
   size();
   var pending;
-  window.addEventListener("resize", function () { clearTimeout(pending); pending = setTimeout(size, 120); });
+  // Sur téléphone, la barre d'adresse déclenche un resize au défilement : on ne reconstruit que si la largeur change.
+  var sizedW = window.innerWidth;
+  window.addEventListener("resize", function () {
+    if (window.innerWidth === sizedW) return;
+    sizedW = window.innerWidth;
+    clearTimeout(pending); pending = setTimeout(size, 120);
+  });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
 
   // Boucle d'animation : chaque zone ne se redessine que si elle est à l'écran.
@@ -1208,18 +1218,41 @@ details ul { margin-top: 0.6rem; font-size: 0.9375rem; }
     new IntersectionObserver(function (e) { seenLoop = e[0].isIntersecting; }).observe(loop);
     new IntersectionObserver(function (e) { seenLive = e[0].isIntersecting; }).observe(live);
   } else { seenLoop = seenLive = true; }
+  // Les animations tournent pour tout le monde, avec un bouton Pause : beaucoup de téléphones demandent de les réduire en économie d'énergie.
+  // La boucle est relancée en premier : une erreur de dessin ne peut pas la figer. Sur téléphone, le fond n'est redessiné qu'une image sur deux.
+  var odd = false;
   function step(now) {
+    requestAnimationFrame(step);
     var dt = last ? Math.min(now - last, 100) : 0;
     last = now;
-    if (!calm) {
-      offset = (offset + dt * 0.011) % (PERIOD * 1000);
-      if (seenHero) { updateWord(dt); drawScope(); drawAscii(); }
-      if (seenLoop) { loopPos = (loopPos + dt / 7000) % 1; drawLoop(); }
-    }
-    if (seenLive) drawLive(performance.now());
-    requestAnimationFrame(step);
+    frames++;
+    try {
+      if (!paused) {
+        offset = (offset + dt * 0.011) % (PERIOD * 1000);
+        if (seenHero) {
+          updateWord(dt);
+          odd = !odd;
+          if (W >= 560 || odd) { drawScope(); drawAscii(); }
+        }
+        if (seenLoop) { loopPos = (loopPos + dt / 7000) % 1; drawLoop(); }
+      }
+      if (seenLive) drawLive(performance.now());
+    } catch (err) { report(err); }
   }
   requestAnimationFrame(step);
+  $("pause").addEventListener("click", function () {
+    paused = !paused;
+    this.textContent = paused ? "Reprendre" : "Pause";
+    this.setAttribute("aria-pressed", String(paused));
+  });
+  if (debug) {
+    var box = document.createElement("pre");
+    box.style.cssText = "position:fixed;left:8px;right:8px;bottom:8px;z-index:9;margin:0;padding:8px;background:#000;color:#0f0;font:12px monospace;white-space:pre-wrap";
+    document.body.appendChild(box);
+    setInterval(function () {
+      box.textContent = "reduit=" + calm + " pause=" + paused + " dpr=" + window.devicePixelRatio + " W=" + W + " H=" + H + " images=" + frames + " hero=" + seenHero + "\nerreurs: " + (errs.join(" | ") || "aucune") + "\n" + navigator.userAgent;
+    }, 500);
+  }
 })();
 </script>
 </body>
